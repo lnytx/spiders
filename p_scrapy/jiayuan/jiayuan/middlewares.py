@@ -5,11 +5,15 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+import codecs
+from datetime import datetime 
 import random
 import time
 
 from scrapy import signals
+from scrapy.downloadermiddlewares.retry import RetryMiddleware
 from scrapy.http.response.html import HtmlResponse
+from scrapy.utils.response import response_status_message
 from selenium import webdriver
 
 
@@ -112,7 +116,11 @@ class JiayuanDownloaderMiddleware(object):
 '''
 
 
+class LocalRetryMiddleware(RetryMiddleware):
 
+    def process_response(self, request, response, spider):
+        print("异常处理异常处理异常处理异常处理异常处理异常处理异常处理")
+        return response
 #classmethod 修饰符对应的函数不需要实例化，不需要 self 参数，但第一个参数需要是表示自身类的 cls 参数，可以来调用类的属性，类的方法，实例化对象等。
 
 # class RandomUserAgent(object):
@@ -140,3 +148,6 @@ class JiayuanDownloaderMiddleware(object):
 #         thisip=random.choice(PROXY_IP)  
 #         print("获取到的IP",thisip,thisip["ipaddr"])  
 #         request.meta["proxy"]="http://"+thisip["ipaddr"]
+
+
+
