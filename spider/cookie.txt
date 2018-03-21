@@ -1,0 +1,6 @@
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
+
+www.egouexpress.com	FALSE	/	FALSE	1536977478	ECS[visit_times]	1
+www.egouexpress.com	FALSE	/	FALSE		ECS_ID	c342f89fba498cfa51e639e1bc370458194cdbea

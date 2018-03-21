@@ -1,0 +1,278 @@
+2018-03-08 12:06:11 [scrapy.utils.log] INFO: Scrapy 1.5.0 started (bot: jiayuan)
+2018-03-08 12:06:11 [scrapy.utils.log] INFO: Versions: lxml 3.7.3.0, libxml2 2.9.3, cssselect 1.0.1, parsel 1.1.0, w3lib 1.17.0, Twisted 17.9.0, Python 3.4.0 (v3.4.0:04f714765c13, Mar 16 2014, 19:25:23) [MSC v.1600 64 bit (AMD64)], pyOpenSSL 16.2.0 (OpenSSL 1.1.0f  25 May 2017), cryptography 2.0, Platform Windows-8-6.2.9200
+2018-03-08 12:06:11 [scrapy.crawler] INFO: Overridden settings: {'BOT_NAME': 'jiayuan', 'NEWSPIDER_MODULE': 'jiayuan.spiders', 'SPIDER_MODULES': ['jiayuan.spiders'], 'LOG_FILE': 'log.txt', 'LOG_ENABLED': False, 'DOWNLOAD_DELAY': 3}
+2018-03-08 12:06:12 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2018-03-08 12:06:13 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['jiayuan.RandomProxy.ProxyIP',
+ 'jiayuan.RandomUserAgent.UserAgent',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'jiayuan.middlewares.JiayuanDownloaderMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2018-03-08 12:06:13 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2018-03-08 12:06:13 [scrapy.middleware] INFO: Enabled item pipelines:
+['jiayuan.pipelines.Jiayuan']
+2018-03-08 12:06:13 [scrapy.core.engine] INFO: Spider opened
+2018-03-08 12:06:13 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2018-03-08 12:06:13 [spider_redis] INFO: Spider opened: spider_redis
+2018-03-08 12:06:13 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2018-03-08 12:06:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://search.jiayuan.com/v2/search_v2.php> (referer: None)
+2018-03-08 12:06:15 [scrapy.crawler] INFO: Received SIGINT, shutting down gracefully. Send again to force 
+2018-03-08 12:06:16 [scrapy.crawler] INFO: Received SIGINT twice, forcing unclean shutdown
+2018-03-08 12:06:17 [scrapy.core.scraper] ERROR: Spider error processing <GET http://search.jiayuan.com/v2/search_v2.php> (referer: None)
+Traceback (most recent call last):
+  File "c:\python34\lib\site-packages\scrapy\utils\defer.py", line 102, in iter_errback
+    yield next(it)
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 30, in process_spider_output
+    for x in result:
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 339, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "D:\Program Files\Python_Workspace\spiders\p_scrapy\jiayuan\jiayuan\spiders\spider_redis.py", line 53, in get_count_info
+    driver = webdriver.Chrome(chrome_options=option)
+  File "c:\python34\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 68, in __init__
+    self.service.start()
+  File "c:\python34\lib\site-packages\selenium\webdriver\common\service.py", line 98, in start
+    self.assert_process_still_running()
+  File "c:\python34\lib\site-packages\selenium\webdriver\common\service.py", line 111, in assert_process_still_running
+    % (self.path, return_code)
+selenium.common.exceptions.WebDriverException: Message: Service chromedriver unexpectedly exited. Status code was: 3221225786
+
+2018-03-08 12:06:17 [scrapy.core.engine] INFO: Closing spider (shutdown)
+2018-03-08 12:06:17 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 315,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 19271,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'shutdown',
+ 'finish_time': datetime.datetime(2018, 3, 8, 4, 6, 17, 42583),
+ 'log_count/DEBUG': 2,
+ 'log_count/ERROR': 1,
+ 'log_count/INFO': 10,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'spider_exceptions/WebDriverException': 1,
+ 'start_time': datetime.datetime(2018, 3, 8, 4, 6, 13, 254404)}
+2018-03-08 12:06:17 [scrapy.core.engine] INFO: Spider closed (shutdown)
+2018-03-08 12:06:38 [scrapy.utils.log] INFO: Scrapy 1.5.0 started (bot: jiayuan)
+2018-03-08 12:06:38 [scrapy.utils.log] INFO: Versions: lxml 3.7.3.0, libxml2 2.9.3, cssselect 1.0.1, parsel 1.1.0, w3lib 1.17.0, Twisted 17.9.0, Python 3.4.0 (v3.4.0:04f714765c13, Mar 16 2014, 19:25:23) [MSC v.1600 64 bit (AMD64)], pyOpenSSL 16.2.0 (OpenSSL 1.1.0f  25 May 2017), cryptography 2.0, Platform Windows-8-6.2.9200
+2018-03-08 12:06:38 [scrapy.crawler] INFO: Overridden settings: {'BOT_NAME': 'jiayuan', 'SPIDER_MODULES': ['jiayuan.spiders'], 'DOWNLOAD_DELAY': 3, 'LOG_ENABLED': False, 'NEWSPIDER_MODULE': 'jiayuan.spiders', 'LOG_FILE': 'log.txt'}
+2018-03-08 12:06:38 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2018-03-08 12:06:39 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['jiayuan.RandomProxy.ProxyIP',
+ 'jiayuan.RandomUserAgent.UserAgent',
+ 'jiayuan.middlewares.JiayuanDownloaderMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2018-03-08 12:06:39 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2018-03-08 12:06:39 [scrapy.middleware] INFO: Enabled item pipelines:
+['jiayuan.pipelines.Jiayuan']
+2018-03-08 12:06:39 [scrapy.core.engine] INFO: Spider opened
+2018-03-08 12:06:39 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2018-03-08 12:06:39 [spider_redis] INFO: Spider opened: spider_redis
+2018-03-08 12:06:39 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2018-03-08 12:06:39 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://search.jiayuan.com/v2/search_v2.php> (referer: None)
+2018-03-08 12:06:42 [scrapy.crawler] INFO: Received SIGINT, shutting down gracefully. Send again to force 
+2018-03-08 12:06:43 [scrapy.crawler] INFO: Received SIGINT twice, forcing unclean shutdown
+2018-03-08 12:06:43 [selenium.webdriver.remote.remote_connection] INFO: Could not connect to port 2363 on host localhost
+2018-03-08 12:06:43 [selenium.webdriver.remote.remote_connection] INFO: Could not get IP address for host: localhost
+2018-03-08 12:06:43 [selenium.webdriver.remote.remote_connection] DEBUG: POST http://localhost:2363/session {"desiredCapabilities": {"goog:chromeOptions": {"extensions": [], "args": ["--headless", "--window-size=1920,1080"]}, "version": "", "platform": "ANY", "browserName": "chrome"}, "capabilities": {"firstMatch": [{}], "alwaysMatch": {"goog:chromeOptions": {"extensions": [], "args": ["--headless", "--window-size=1920,1080"]}, "platformName": "any", "browserName": "chrome"}}}
+2018-03-08 12:06:47 [scrapy.core.scraper] ERROR: Spider error processing <GET http://search.jiayuan.com/v2/search_v2.php> (referer: None)
+Traceback (most recent call last):
+  File "c:\python34\lib\site-packages\scrapy\utils\defer.py", line 102, in iter_errback
+    yield next(it)
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 30, in process_spider_output
+    for x in result:
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 339, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "D:\Program Files\Python_Workspace\spiders\p_scrapy\jiayuan\jiayuan\spiders\spider_redis.py", line 53, in get_count_info
+    driver = webdriver.Chrome(chrome_options=option)
+  File "c:\python34\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 75, in __init__
+    desired_capabilities=desired_capabilities)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 154, in __init__
+    self.start_session(desired_capabilities, browser_profile)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 243, in start_session
+    response = self.execute(Command.NEW_SESSION, parameters)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 310, in execute
+    response = self.command_executor.execute(driver_command, params)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\remote_connection.py", line 466, in execute
+    return self._request(command_info[0], url, body=data)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\remote_connection.py", line 489, in _request
+    self._conn.request(method, parsed_url.path, body, headers)
+  File "c:\python34\lib\http\client.py", line 1066, in request
+    self._send_request(method, url, body, headers)
+  File "c:\python34\lib\http\client.py", line 1104, in _send_request
+    self.endheaders(body)
+  File "c:\python34\lib\http\client.py", line 1062, in endheaders
+    self._send_output(message_body)
+  File "c:\python34\lib\http\client.py", line 907, in _send_output
+    self.send(msg)
+  File "c:\python34\lib\http\client.py", line 842, in send
+    self.connect()
+  File "c:\python34\lib\http\client.py", line 820, in connect
+    self.timeout, self.source_address)
+  File "c:\python34\lib\socket.py", line 509, in create_connection
+    raise err
+  File "c:\python34\lib\socket.py", line 500, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+2018-03-08 12:06:47 [scrapy.core.engine] INFO: Closing spider (shutdown)
+2018-03-08 12:06:47 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 297,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 19278,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'shutdown',
+ 'finish_time': datetime.datetime(2018, 3, 8, 4, 6, 47, 158936),
+ 'log_count/DEBUG': 3,
+ 'log_count/ERROR': 1,
+ 'log_count/INFO': 12,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'spider_exceptions/ConnectionRefusedError': 1,
+ 'start_time': datetime.datetime(2018, 3, 8, 4, 6, 39, 607901)}
+2018-03-08 12:06:47 [scrapy.core.engine] INFO: Spider closed (shutdown)
+2018-03-08 12:08:17 [scrapy.utils.log] INFO: Scrapy 1.5.0 started (bot: jiayuan)
+2018-03-08 12:08:17 [scrapy.utils.log] INFO: Versions: lxml 3.7.3.0, libxml2 2.9.3, cssselect 1.0.1, parsel 1.1.0, w3lib 1.17.0, Twisted 17.9.0, Python 3.4.0 (v3.4.0:04f714765c13, Mar 16 2014, 19:25:23) [MSC v.1600 64 bit (AMD64)], pyOpenSSL 16.2.0 (OpenSSL 1.1.0f  25 May 2017), cryptography 2.0, Platform Windows-8-6.2.9200
+2018-03-08 12:08:17 [scrapy.crawler] INFO: Overridden settings: {'LOG_ENABLED': False, 'LOG_FILE': 'log.txt', 'SPIDER_MODULES': ['jiayuan.spiders'], 'DOWNLOAD_DELAY': 3, 'BOT_NAME': 'jiayuan', 'NEWSPIDER_MODULE': 'jiayuan.spiders'}
+2018-03-08 12:08:17 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2018-03-08 12:08:18 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['jiayuan.RandomProxy.ProxyIP',
+ 'jiayuan.RandomUserAgent.UserAgent',
+ 'jiayuan.middlewares.JiayuanDownloaderMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2018-03-08 12:08:18 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2018-03-08 12:08:18 [scrapy.middleware] INFO: Enabled item pipelines:
+['jiayuan.pipelines.Jiayuan']
+2018-03-08 12:08:18 [scrapy.core.engine] INFO: Spider opened
+2018-03-08 12:08:18 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2018-03-08 12:08:18 [spider_redis] INFO: Spider opened: spider_redis
+2018-03-08 12:08:18 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2018-03-08 12:08:19 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://search.jiayuan.com/v2/search_v2.php> (referer: None)
+2018-03-08 12:08:22 [selenium.webdriver.remote.remote_connection] DEBUG: POST http://127.0.0.1:2413/session {"desiredCapabilities": {"version": "", "platform": "ANY", "browserName": "chrome", "goog:chromeOptions": {"args": ["--headless", "--window-size=1920,1080"], "extensions": []}}, "capabilities": {"firstMatch": [{}], "alwaysMatch": {"platformName": "any", "browserName": "chrome", "goog:chromeOptions": {"args": ["--headless", "--window-size=1920,1080"], "extensions": []}}}}
+2018-03-08 12:08:28 [scrapy.crawler] INFO: Received SIGINT, shutting down gracefully. Send again to force 
+2018-03-08 12:08:29 [scrapy.crawler] INFO: Received SIGINT twice, forcing unclean shutdown
+2018-03-08 12:08:30 [scrapy.core.scraper] ERROR: Spider error processing <GET http://search.jiayuan.com/v2/search_v2.php> (referer: None)
+Traceback (most recent call last):
+  File "c:\python34\lib\site-packages\scrapy\utils\defer.py", line 102, in iter_errback
+    yield next(it)
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 30, in process_spider_output
+    for x in result:
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 339, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "c:\python34\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "D:\Program Files\Python_Workspace\spiders\p_scrapy\jiayuan\jiayuan\spiders\spider_redis.py", line 53, in get_count_info
+    driver = webdriver.Chrome(chrome_options=option)
+  File "c:\python34\lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 75, in __init__
+    desired_capabilities=desired_capabilities)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 154, in __init__
+    self.start_session(desired_capabilities, browser_profile)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 243, in start_session
+    response = self.execute(Command.NEW_SESSION, parameters)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 310, in execute
+    response = self.command_executor.execute(driver_command, params)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\remote_connection.py", line 466, in execute
+    return self._request(command_info[0], url, body=data)
+  File "c:\python34\lib\site-packages\selenium\webdriver\remote\remote_connection.py", line 490, in _request
+    resp = self._conn.getresponse()
+  File "c:\python34\lib\http\client.py", line 1148, in getresponse
+    response.begin()
+  File "c:\python34\lib\http\client.py", line 352, in begin
+    version, status, reason = self._read_status()
+  File "c:\python34\lib\http\client.py", line 314, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "c:\python34\lib\socket.py", line 371, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+2018-03-08 12:08:30 [scrapy.core.engine] INFO: Closing spider (shutdown)
+2018-03-08 12:08:30 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 303,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 19294,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'shutdown',
+ 'finish_time': datetime.datetime(2018, 3, 8, 4, 8, 30, 741993),
+ 'log_count/DEBUG': 3,
+ 'log_count/ERROR': 1,
+ 'log_count/INFO': 10,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'spider_exceptions/ConnectionResetError': 1,
+ 'start_time': datetime.datetime(2018, 3, 8, 4, 8, 18, 763701)}
+2018-03-08 12:08:30 [scrapy.core.engine] INFO: Spider closed (shutdown)

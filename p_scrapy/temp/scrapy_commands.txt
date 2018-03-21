@@ -1,0 +1,40 @@
+Scrapy常用命令行工具
+查看所有命令
+scrapy -h
+查看帮助信息
+scapy --help
+查看版本信息
+(venv)ql@ql:~$ scrapy version
+Scrapy 1.1.2
+(venv)ql@ql:~$ 
+(venv)ql@ql:~$ scrapy version -v
+Scrapy    : 1.1.2
+lxml      : 3.6.4.0
+libxml2   : 2.9.4
+Twisted   : 16.4.0
+Python    : 2.7.12 (default, Jul  1 2016, 15:12:24) - [GCC 5.4.0 20160609]
+pyOpenSSL : 16.1.0 (OpenSSL 1.0.2g-fips  1 Mar 2016)
+Platform  : Linux-4.4.0-36-generic-x86_64-with-Ubuntu-16.04-xenial
+(venv)ql@ql:~$ 
+
+新建一个工程
+scrapy startproject spider_name
+构建爬虫genspider(generator spider)
+一个工程中可以存在多个spider, 但是名字必须唯一
+
+scrapy genspider name domain
+#如:
+#scrapy genspider sohu sohu.org
+查看当前项目内有多少爬虫
+scrapy list
+view使用浏览器打开网页
+scrapy view http://www.baidu.com
+shell命令, 进入scrpay交互环境
+#进入该url的交互环境
+scrapy shell http://www.dmoz.org/Computers/Programming/Languages/Python/Books/
+之后便进入交互环境
+我们主要使用这里面的response命令, 例如可以使用
+
+response.xpath()    #括号里直接加xpath路径
+runspider命令用于直接运行创建的爬虫, 并不会运行整个项目
+scrapy runspider 爬虫名称
