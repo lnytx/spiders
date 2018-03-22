@@ -116,11 +116,12 @@ class JiayuanDownloaderMiddleware(object):
 '''
 
 
-class LocalRetryMiddleware(RetryMiddleware):
+# class LocalRetryMiddleware(RetryMiddleware):
+# 
+#     def process_response(self, request, response, spider):
+#         print("异常处理异常处理异常处理异常处理异常处理异常处理异常处理")
+#         return response
 
-    def process_response(self, request, response, spider):
-        print("异常处理异常处理异常处理异常处理异常处理异常处理异常处理")
-        return response
 #classmethod 修饰符对应的函数不需要实例化，不需要 self 参数，但第一个参数需要是表示自身类的 cls 参数，可以来调用类的属性，类的方法，实例化对象等。
 
 # class RandomUserAgent(object):

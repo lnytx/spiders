@@ -10,13 +10,13 @@ import random
 
 
 class ProxyIP(object): 
-    proxyList = []
+    proxyList = ["183.30.197.13:9797"]
 #     f_ip = "D:\\Program Files\\Python_Workspace\\spiders\\p_scrapy\\test_spiders\\test_spiders\\proxy_ip.txt"
-    f_ip = "E:\\soft\\python3.4\\workspace\\spiders\\p_scrapy\\jiayuan\\jiayuan\\proxy_ip.txt"
-    with open (f_ip,'r') as f:
-        for line in f.readlines():
-            print("line",line)
-            proxyList.append(line)
+#     f_ip = "E:\\soft\\python3.4\\workspace\\spiders\\p_scrapy\\jiayuan\\jiayuan\\proxy_ip.txt"
+#     with open (f_ip,'r') as f:
+#         for line in f.readlines():
+#             print("line",line)
+#             proxyList.append(line)
     def process_request(self, request, spider):  
         # Set the location of the proxy  
         pro_adr = random.choice(self.proxyList)  

@@ -28,6 +28,10 @@ from settings import PROXY_IP_FILE
 #定义几个全局变量
 lock = threading.Lock()#定义锁，防止重复写文件
 q = Queue()#创建先进先出队列，全局中变量
+if os.path.exists(PROXY_IP_FILE+'_temp'):
+        os.remove(PROXY_IP_FILE+'_temp')
+if os.path.exists(PROXY_IP_FILE):
+        os.remove(PROXY_IP_FILE)
 temp = open(PROXY_IP_FILE+'_temp','a+')
 temp.close
 r_fine = open(PROXY_IP_FILE+'_temp')
@@ -59,15 +63,15 @@ print("hdader",header)
 def get_proxyIP():
     global q
     ip_list={}   #初始化列表用来存储获取到的IP
-#     url='http://www.xicidaili.com/'
-    url = "http://ip.yqie.com/ipproxy.htm"
+    url='http://www.xicidaili.com/'
+#     url = "http://ip.yqie.com/ipproxy.htm"
 #     url = "http://ip.seofangfa.com/"
     req=requests.get(url=url,headers=header)
     r=req.text
     soup=BeautifulSoup(r,'html.parser')
 #     print("soup",soup)
-#     iplistn=soup.findAll('tr',class_='')#对应的url='http://www.xicidaili.com/'
-    iplistn=soup.findAll('tr',align='center')#url = "http://ip.yqie.com/ipproxy.htm"
+    iplistn=soup.findAll('tr',class_='')#对应的url='http://www.xicidaili.com/'
+#     iplistn=soup.findAll('tr',align='center')#url = "http://ip.yqie.com/ipproxy.htm"
 #     print("iplistn",iplistn)
     proxy_ip=[]
     set_ip = set()#利用set去除文件中重复的IP
@@ -126,7 +130,7 @@ def check_url():
     header={"User-Agent":random.choice(user_agent_list)}
     #根据上面的方法获取一个随机的代理IP
     #q=get_proxyIP()
-    url = "http://www.baidu.com/"
+    url = "http://www.jiayuan.com/175017527?fxly=pmtq-ss-210&pv.mark=s_p_c|175017527|68209968"
     ip={}
     req = ''
     #PROXY_IP_FILE#从settings中读取
