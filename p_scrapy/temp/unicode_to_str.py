@@ -10,7 +10,6 @@ from functools import partial
 import json
 import os
 
-
 # i = 0
 # f1 = '123.txt'
 # f2='c.txt'
@@ -49,7 +48,12 @@ if __name__=='__main__':
 #     print("pet",pet[0],pet[1])
     a = '五五_27_234325242'
     s = a[a.find('_')+1:a.rfind('_')]
+    file = open("D:\\Program Files\\Python_Workspace\\spiders\\p_scrapy\\jiayuan\\jiayuan\\proxy_ip.txt_temp")
     print("s",s)
+    while True:
+        line = file.readline()
+        print("line",line)
+        if len(line)==0:break
 #     a = {}
 #     for i in range(len(aaa)):
 #         if i%2==0:

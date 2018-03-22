@@ -1,0 +1,3 @@
+[0322/145012.833:ERROR:crash_report_database_win.cc(568)] CreateDirectory C:\Users\ning.lin\AppData\Local\Temp\scoped_dir922864_31757\Crashpad: 系统找不到指定的路径。 (0x3)
+[0322/145713.539:ERROR:crash_report_database_win.cc(568)] CreateDirectory C:\Users\ning.lin\AppData\Local\Temp\scoped_dir922848_27607\Crashpad: 系统找不到指定的路径。 (0x3)
+[0322/161552.909:ERROR:exception_handler_server.cc(526)] ConnectNamedPipe: 管道正在被关闭。 (0xE8)

@@ -113,7 +113,8 @@ def download_imgs(name_persionid,img_list):
                         break
                     handle.write(block)
         except Exception as e:
-            scrapy.log("图片保存失败 %s"%(img_list[i]), level=log.ERROR)
+            print("图片保存失败 %s" ,str(e))
+           # scrapy.log("图片保存失败 %s"%(str(e)), level=log.ERROR)
 
 def parse_filename(file_name):
     """

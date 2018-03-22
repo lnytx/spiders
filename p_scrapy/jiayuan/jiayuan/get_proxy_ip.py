@@ -25,7 +25,13 @@ import requests
 from settings import PROXY_IP_FILE
 
 
+#定义几个全局变量
+lock = threading.Lock()#定义锁，防止重复写文件
 q = Queue()#创建先进先出队列，全局中变量
+temp = open(PROXY_IP_FILE+'_temp','a+')
+temp.close
+r_fine = open(PROXY_IP_FILE+'_temp')
+w_file = open(PROXY_IP_FILE,'a+')#IP写入正式文件
 user_agent_list=[
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
         "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
@@ -53,17 +59,18 @@ print("hdader",header)
 def get_proxyIP():
     global q
     ip_list={}   #初始化列表用来存储获取到的IP
-    url='http://www.xicidaili.com/'
-#     url = "http://ip.yqie.com/ipproxy.htm"
+#     url='http://www.xicidaili.com/'
+    url = "http://ip.yqie.com/ipproxy.htm"
 #     url = "http://ip.seofangfa.com/"
     req=requests.get(url=url,headers=header)
     r=req.text
     soup=BeautifulSoup(r,'html.parser')
 #     print("soup",soup)
-    iplistn=soup.findAll('tr',class_='')#对应的url='http://www.xicidaili.com/'
-#     iplistn=soup.findAll('tr',align='center')#url = "http://ip.yqie.com/ipproxy.htm"
+#     iplistn=soup.findAll('tr',class_='')#对应的url='http://www.xicidaili.com/'
+    iplistn=soup.findAll('tr',align='center')#url = "http://ip.yqie.com/ipproxy.htm"
 #     print("iplistn",iplistn)
     proxy_ip=[]
+    set_ip = set()#利用set去除文件中重复的IP
     ip_port=''
     for i in iplistn:
         ip=i.text.strip().strip()
@@ -72,9 +79,16 @@ def get_proxyIP():
             p = re.compile('^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$')#判断是否为IP
             if p.match(ip_list[j]):#如果是IP
                 #ip_port[ip_list[j]]=ip_list[j+1]
-                ip_port = ip_list[j]+":"+ip_list[j+1]#119.188.94.145:80这种形式
-                q.put(ip_port)
-    print("lifo_queue",q.queue)
+                ip_port = str(ip_list[j].strip())+":"+str(ip_list[j+1].strip())#119.188.94.145:80这种形式
+                set_ip.add(ip_port)
+#                 print("ip_port",ip_port)
+    with open(PROXY_IP_FILE+'_temp','a+') as f:
+        for name in set_ip:
+            q.put(ip_port)#遍历set，将其元素添加到队列中
+            file_ip = str(str(name))+'\n'
+            f.write(file_ip)   
+
+#     print("lifo_queue",q.queue)
 #     print("获取第一个元素",q.get())
     return q
 #使用代理IP访问url
@@ -82,13 +96,12 @@ def get_proxyIP():
 
 
 
-def check_url(url):
+def check_url():
     '''
     deque['119.188.94.145:80', '113.120.130.249:8080']
     url为网站url
     '''
-    global que
-    que = get_proxyIP()
+#     que = get_proxyIP()
     user_agent_list=[
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
         "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
@@ -113,38 +126,45 @@ def check_url(url):
     header={"User-Agent":random.choice(user_agent_list)}
     #根据上面的方法获取一个随机的代理IP
     #q=get_proxyIP()
+    url = "http://www.baidu.com/"
     ip={}
     req = ''
     #PROXY_IP_FILE#从settings中读取
 #     if os.path.exists(PROXY_IP_FILE):
 #         os.mknod(PROXY_IP_FILE)#创建文件
-    loop_num = que.qsize()
-    set_ip = set()#利用set去除文件中重复的IP
-    print("proxy_ip",type(que),que.queue)
-    while loop_num:
-        print("loop_num",loop_num)
-#         ip_queue_item = proxy_ip.get()
-        ip['http'] = que.get()
-        print("当前IP",ip)
+#     loop_num = que.qsize()
+#     print("proxy_ip",type(que),que.queue)
+    while True:
+        lock.acquire()
+        ip["http"] = r_fine.readline().strip()#读取文件中的一行
+#         ip['http'] = que.get()#从队列中读取爬到的IP
+        lock.release()#释放锁
+        if  len(ip["http"]) == 0: break#到了文件结尾就清空则停止
+        print("当前验证的IP:",ip)
         try:
             req = requests.get(url, proxies=ip, headers=header)
             print("返回状态码",req.status_code)
-            if req.status_code!=200:
-                continue
+#             if req.status_code!=200:
+#                 continue
+            if req.status_code==200:
+                print("写入文件")
+                lock.acquire()#加锁写文件
+                for k,v in ip.items():
+                    file_ip = str(str(v))+'\n'
+                    print("状态为200的IP:",file_ip)
+                    w_file.write(file_ip)
+                lock.release()#释放锁218.56.132.154:8080,159.255.163.189:80
             else:#等于200将当前IP写入文本中
-                with open(PROXY_IP_FILE+'_temp','a+') as f:
-                    for k,v in ip.items():
-                        file_ip = str(str(v))+'\n'
-                        f.write(file_ip)
+                continue
 #             r=req.text
 #             soup=BeautifulSoup(r,'html.parser')
         except Exception as e:
             print("异常",str(e))
+        finally:
+            pass
             #如果不是200就重试，每次递减重试次数,使用函数获取soup数据
                 #如果url不存在会抛出ConnectionError错误，这个情况不做重试  
             #return check_url(url,retry-1)
-        finally:
-            loop_num -=1
                 #req.close()
 #当前IP {'http': '42.96.168.79:8888'}
       
@@ -170,32 +190,30 @@ if __name__=="__main__":
     '''
     使用队列来配合进程池
     '''
-    if os.path.exists(PROXY_IP_FILE):
-        os.remove(PROXY_IP_FILE)
-    time.sleep(2)
-    print("PROXY_IP_FILE",PROXY_IP_FILE)
-     
-    threads_num = get_proxyIP().qsize()
-#     q = get_proxyIP()
-    print(q.queue)
-    url = "http://www.baidu.com/"
-   
+    get_proxyIP()#获取IP，写入临时文件
+#     if os.path.exists(PROXY_IP_FILE+'_temp'):
+#         os.remove(PROXY_IP_FILE+'_temp')
+#     time.sleep(2)
+#     print("PROXY_IP_FILE",PROXY_IP_FILE)
+#      
+#     threads_num = get_proxyIP().qsize()
+# #     q = get_proxyIP()
+#     print(q.queue)
+#     get_proxyIP()
     '''
     多线程
     '''
-#     thread_list = []    #线程存放列表
-#     for i in range(5):
-#         t =threading.Thread(target=check_url,args=(url,))
-#         t.setDaemon(True)
-#         thread_list.append(t)
-#       
-#     for t in thread_list:
-#         t.start()
-#       
-#     for t in thread_list:
-#         t.join() 
-    check_url(url)
-    filter_file()
+    thread_list = []    #线程存放列表
+    for i in range(40):
+        t =threading.Thread(target=check_url,args=())
+        t.setDaemon(True)
+        thread_list.append(t)
+        
+    for t in thread_list:
+        t.start()
+        
+    for t in thread_list:
+        t.join() 
 
 '''
     进程池
