@@ -64,8 +64,7 @@ COOKIES_ENABLED = True
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
 #     'jiayuan.middlewares.JiayuanDownloaderMiddleware': 300,
-    "test_spiders.RandomProxy.HttpProxyMiddleware":100,
-#     'test_spiders.RandomProxy.ProxyIP': 100,
+    'test_spiders.RandomProxy.ProxyIP': 100,
     'test_spiders.RandomUserAgent.UserAgent': 300,
 }
 

@@ -21,7 +21,7 @@ from selenium import webdriver
 from twisted.trial.util import _WorkingDirectoryBusy
 
 from test_spiders.items import JiayuanItem
-from test_spiders.settings import IMAGES_STORE,USER_NAME,PASSWD
+from test_spiders.settings import IMAGES_STORE, USER_NAME, PASSWD
 
 
 class jiayuan_data(scrapy.Spider):
@@ -371,4 +371,4 @@ class jiayuan_data(scrapy.Spider):
         item['img_urls'] = images#保存相片地址，在person_info表中的text
         print("执行到了最后执行到了最后执行到了最后执行到了最后执行到了最后执行到了最后执行到了最后")
 #         yield item
-# cmdline.execute("scrapy crawl jiayuan_test".split())
+cmdline.execute("scrapy crawl jiayuan_test".split())

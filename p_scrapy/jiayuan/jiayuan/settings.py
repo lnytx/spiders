@@ -179,7 +179,7 @@ USER_AGENT_LIST = [\
 #         "(KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
        ]
 
-USER_PROXY_IP = ["122.114.31.177:808"]
+USER_PROXY_IP = ["186.224.65.249:6006"]
 PROXY_IP_FILE="proxy_ip.txt"
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
