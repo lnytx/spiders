@@ -63,9 +63,9 @@ COOKIES_ENABLED = True
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-#     'jiayuan.middlewares.JiayuanDownloaderMiddleware': 300,
-    'test_spiders.RandomProxy.ProxyIP': 100,
-    'test_spiders.RandomUserAgent.UserAgent': 300,
+    'test_spiders.retry_mid.Retry_Custom': 200,
+    'test_spiders.RandomProxy.ProxyIP': 100,#代理IP与agent合并到一起了
+#     'test_spiders.RandomUserAgent.UserAgent': 300,
 }
 
 
@@ -79,7 +79,8 @@ PROXY_IP_FILE="proxy_ip.txt"
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
-
+# RETRY_ENABLED = True#开启重试
+RETRY_TIMES = 1#重试次数
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {

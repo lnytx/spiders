@@ -9,7 +9,8 @@ pip install scrapy(Unable to find vcvarsall.bat有些可能需要安装visual c+
 pip install selenium
 pip install scarpy-redis
 pip install pypiwin32-219-cp34-none-win_amd64.whl
-
+pip install beautifulsoup4
+pip install resquests
 
 master机器重要配置
 bind 127.0.0.1改成bind 0.0.0.0

@@ -61,10 +61,10 @@ print("hdader",header)
 lock = threading.Lock()#定义锁，防止重复写文件
 q = Queue()#创建先进先出队列，全局中变量
 ip={}   #初始化列表用来存储获取到的IP
-# url='http://www.xicidaili.com/'
+url='http://www.xicidaili.com/'
 # url = "http://ip.yqie.com/ipproxy.htm"
 #     url = "http://ip.seofangfa.com/"
-url = "http://www.66ip.cn/areaindex_2/1.html"
+# url = "http://www.66ip.cn/areaindex_2/1.html"
 req=requests.get(url=url,headers=header)
 r=req.text
 soup=BeautifulSoup(r,'html.parser')
@@ -87,16 +87,15 @@ if 'www.66ip.cn' in url:
                 ip_port = str(td[j].text.strip())+":"+str(td[j+1].text.strip())#119.188.94.145:80这种形式
                 set_ip.add(ip_port)
 if 'www.xicidaili' in url:
-    iplistn=soup.findAll('tr',class_='')
+    iplistn=soup.findAll('tr',class_='odd')
     for i in iplistn:
-        print("i",i)
         ip=i.text.strip().strip()
         ip_list=ip.split()
-    for j in range(len(ip_list)):
-        if p.match(ip_list[j]):#如果是IP
-            #ip_port[ip_list[j]]=ip_list[j+1]
-            ip_port = str(ip_list[j].strip())+":"+str(ip_list[j+1].strip())#119.188.94.145:80这种形式
-            set_ip.add(ip_port)
+        for j in range(len(ip_list)):
+            if p.match(ip_list[j]):#如果是IP
+                #ip_port[ip_list[j]]=ip_list[j+1]
+                ip_port = str(ip_list[j].strip())+":"+str(ip_list[j+1].strip())#119.188.94.145:80这种形式
+                set_ip.add(ip_port)
     print("iplistn",iplistn)
 if 'ip.yqie.com' in url:
     iplistn=soup.findAll('tr',align='center')
@@ -241,12 +240,12 @@ def main():
         t =threading.Thread(target=check_url,args=(i,))
         t.setDaemon(True)
         thread_list.append(t)
-        
+         
     for t in thread_list:
         t.start()
-        
+         
     for t in thread_list:
-        t.join() 
+        t.join(timeout=3) 
     init_proxy_db()
 
 if __name__=="__main__":
