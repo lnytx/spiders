@@ -73,7 +73,7 @@ proxy_ip=[]
 set_ip = set()#利用set去除文件中重复的IP
 ip_list=[]
 ip_port=''
-print("soup",soup)
+# print("soup",soup)
 #     iplistn=soup.findAll('tr',class_='')#对应的url='http://www.xicidaili.com/'
 # iplistn=soup.findAll('tr',align='center')#url = "http://ip.yqie.com/ipproxy.htm"
 if 'www.66ip.cn' in url:
