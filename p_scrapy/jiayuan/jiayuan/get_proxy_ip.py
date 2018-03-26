@@ -181,6 +181,8 @@ def check_url():
         try:
             req = requests.get(url, proxies=ip, headers=header)
             print("返回状态码",req.status_code)
+#             user_agent = str(random.choice(user_agent_list))
+#             print("随机agent",user_agent)
 #             if req.status_code!=200:
 #                 continue
             if req.status_code==200:
@@ -202,7 +204,7 @@ def check_url():
                             cursor.execute('''update proxy_ip set proxy_ip=%s,user_agent=%s where ip_port=%s''',(str(v).strip(),str(random.choice(user_agent_list)),str(v).strip()))
                         else:
                             print("执行insert")
-                            cursor.execute("insert into proxy_ip(ip_port,user_agent) value(%s,%s)",(str(v).strip()),str(random.choice(user_agent_list)))
+                            cursor.execute("insert into proxy_ip(ip_port,user_agent) value(%s,%s)",(str(v).strip(),str(random.choice(user_agent_list))))
                     except Exception as e:
                         print("执行sql异常",str(e))
                     finally:
@@ -219,7 +221,7 @@ def check_url():
     #去掉IP中的回车与换行
     cursor.execute('''SELECT ip_port FROM proxy_ip WHERE id >= \
                         ((SELECT MAX(id) FROM proxy_ip)-(SELECT MIN(id ) \
-                        FROM proxy_ip)) * RAND() + (SELECT MIN(id) FROM proxy_ip)  LIMIT 1)
+                        FROM proxy_ip)) * RAND() + (SELECT MIN(id) FROM proxy_ip)  LIMIT 1
                 ''')
     curr_ip = cursor.fetchone()['ip_port']
     cursor.execute("UPDATE proxy_ip SET  ip_port = REPLACE(REPLACE(ip_port, CHAR(10), ''), CHAR(13), '')")
@@ -249,7 +251,7 @@ def filter_file():
                 f.write(item)
 
 def main():
-    get_proxyIP()#获取IP，写入临时文件
+#     get_proxyIP()#获取IP，写入临时文件
     
     '''
     多线程
