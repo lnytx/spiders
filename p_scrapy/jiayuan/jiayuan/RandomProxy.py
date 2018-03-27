@@ -11,7 +11,7 @@ import random
 
 
 class ProxyIP(object): 
-    proxyList = ["116.231.63.107:8060"]
+    proxyList = ["222.73.68.144:8090"]
     def process_request(self, request, spider):  
         # Set the location of the proxy  
         pro_adr = random.choice(self.proxyList)  

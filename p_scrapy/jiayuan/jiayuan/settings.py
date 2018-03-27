@@ -108,8 +108,8 @@ COOKIES_ENABLED = True
 DOWNLOADER_MIDDLEWARES = {
 #     'jiayuan.middlewares.JiayuanDownloaderMiddleware': 300,
 #     "jiayuan.middlewares.LocalRetryMiddleware":100,
-    'jiayuan.RandomProxy.Proxy_IP_Agent': 100,
-#     'jiayuan.RandomUserAgent.UserAgent': 300,
+    'jiayuan.RandomProxy.ProxyIP': 100,
+    'jiayuan.RandomUserAgent.UserAgent': 300,
 }
 
 # Enable or disable extensions

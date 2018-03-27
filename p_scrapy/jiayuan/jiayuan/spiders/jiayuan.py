@@ -66,7 +66,7 @@ class jiayuan_data(RedisSpider):
     def start_requests(self):#
         print("执行start_requestsstart_requestsstart_requests")
         for url in self.start_urls:
-            yield scrapy.Request(url=url,cookies=self.cookies,callback=self.get_main_info)
+            yield Request(url=url,cookies=self.cookies,callback=self.get_main_info)
 #             yield scrapy.Request(url=search_url,callback=self.get_main_info)
 #             return Request(url=url,callback=self.get_main_info)
     def get_main_info(self,response):#解析搜索业面的url
@@ -91,7 +91,7 @@ class jiayuan_data(RedisSpider):
         print("人员详情url2",len(url_details))
         if url_details!=[]:
             for url in url_details:
-                yield scrapy.Request(url=url,cookies=self.cookies,callback=self.get_details)
+                yield Request(url=url,cookies=self.cookies,callback=self.get_details)
 #         yield item
     def get_details(self,response):
         '''
