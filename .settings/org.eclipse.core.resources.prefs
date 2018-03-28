@@ -39,6 +39,7 @@ encoding//p_scrapy/temp/\u6EDA\u52A8.py=utf-8
 encoding//p_scrapy/test_spiders=UTF-8
 encoding//p_scrapy/test_spiders/test_spiders/RandomProxy.py=utf-8
 encoding//p_scrapy/test_spiders/test_spiders/RandomUserAgent.py=utf-8
+encoding//p_scrapy/test_spiders/test_spiders/get_proxy_ip.py=utf-8
 encoding//p_scrapy/test_spiders/test_spiders/items.py=utf-8
 encoding//p_scrapy/test_spiders/test_spiders/middlewares.py=utf-8
 encoding//p_scrapy/test_spiders/test_spiders/retry_mid.py=utf-8

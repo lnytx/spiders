@@ -60,7 +60,7 @@ REDIE_URL = None
 REDIS_HOST='127.0.0.1'
 REDIS_PORT=6379
 
-LOG_FILE ='D:\log_slave.txt'
+# LOG_FILE ='D:\log_slave.txt'
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -107,8 +107,9 @@ COOKIES_ENABLED = True
 
 DOWNLOADER_MIDDLEWARES = {
 #     'jiayuan.middlewares.JiayuanDownloaderMiddleware': 300,
-    'jiayuan_details.RandomProxy.ProxyIP': 100,
-    'jiayuan_details.RandomUserAgent.UserAgent': 300,
+    'jiayuan_details.retry_mid.Retry_Custom': 201,
+    'jiayuan_details.RandomProxy.ProxyIP': 100,#代理IP与agent合并到一起了
+    'jiayuan_details.RandomUserAgent.UserAgent': 200,
 }
 
 # Enable or disable extensions

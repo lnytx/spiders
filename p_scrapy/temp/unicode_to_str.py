@@ -50,10 +50,15 @@ if __name__=='__main__':
     s = a[a.find('_')+1:a.rfind('_')]
     file = open("D:\\Program Files\\Python_Workspace\\spiders\\p_scrapy\\jiayuan\\jiayuan\\proxy_ip.txt_temp")
     print("s",s)
-    while True:
-        line = file.readline()
-        print("line",line)
-        if len(line)==0:break
+    
+    url = 'http://218.56.132.154:8080'
+    ip = url[url.rfind('/')+1:url.rfind(':')]
+    print("ip",ip)
+
+#     while True:
+#         line = file.readline()
+#         print("line",line)
+#         if len(line)==0:break
 #     a = {}
 #     for i in range(len(aaa)):
 #         if i%2==0:

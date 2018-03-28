@@ -63,9 +63,9 @@ COOKIES_ENABLED = True
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'test_spiders.retry_mid.Retry_Custom': 200,
+    'test_spiders.retry_mid.Retry_Custom': 201,
     'test_spiders.RandomProxy.ProxyIP': 100,#代理IP与agent合并到一起了
-#     'test_spiders.RandomUserAgent.UserAgent': 300,
+    'test_spiders.RandomUserAgent.UserAgent': 200,
 }
 
 

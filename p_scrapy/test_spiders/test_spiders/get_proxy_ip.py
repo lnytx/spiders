@@ -64,10 +64,15 @@ ip={}   #初始化列表用来存储获取到的IP
 # url='http://www.xicidaili.com/'
 # url = "http://ip.yqie.com/ipproxy.htm"
 #     url = "http://ip.seofangfa.com/"
-url = "http://www.66ip.cn/areaindex_2/1.html"
+# url = "http://www.66ip.cn/areaindex_18/1.html"
+url = "http://www.ip3366.net/?stype=1&page=4"#可翻页
+
+# url = 'http://ip.zdaye.com/'
 req=requests.get(url=url,headers=header)
+req.encoding = 'utf-8' 
 r=req.text
 soup=BeautifulSoup(r,'html.parser')
+# print(soup)
 p = re.compile('^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$')#判断是否为IP
 proxy_ip=[]
 set_ip = set()#利用set去除文件中重复的IP
@@ -81,7 +86,7 @@ if 'www.66ip.cn' in url:
     for tr in iplistn:
         td = tr.find_all('td')
         for j in range(len(td)):
-            print("j",type(td[j]),td[j].text)
+#             print("j",type(td[j]),td[j].text)
             if p.match(td[j].text):#如果是IP
             #ip_port[ip_list[j]]=ip_list[j+1]
                 ip_port = str(td[j].text.strip())+":"+str(td[j+1].text.strip())#119.188.94.145:80这种形式
@@ -89,7 +94,7 @@ if 'www.66ip.cn' in url:
 if 'www.xicidaili' in url:
     iplistn=soup.findAll('tr',class_='')
     for i in iplistn:
-        print("i",i)
+#         print("i",i)
         ip=i.text.strip().strip()
         ip_list=ip.split()
     for j in range(len(ip_list)):
@@ -101,12 +106,23 @@ if 'www.xicidaili' in url:
 if 'ip.yqie.com' in url:
     iplistn=soup.findAll('tr',align='center')
     for i in iplistn:
-        print("i",i)
+#         print("i",i)
         ip=i.text.strip().strip()
         ip_list=ip.split()
         for j in range(len(ip_list)):
             if p.match(ip_list[j]):#如果是IP
                 #ip_port[ip_list[j]]=ip_list[j+1]
+                ip_port = str(ip_list[j].strip())+":"+str(ip_list[j+1].strip())#119.188.94.145:80这种形式
+                set_ip.add(ip_port)
+if 'www.ip3366.net' in url:
+    print("soup",soup)
+    iplistn=soup.findAll('tr')
+    for i in iplistn:
+#         print("i",i)
+        ip=i.text.strip().strip()
+        ip_list=ip.split()
+        for j in range(len(ip_list)):
+            if p.match(ip_list[j]):#如果是IP
                 ip_port = str(ip_list[j].strip())+":"+str(ip_list[j+1].strip())#119.188.94.145:80这种形式
                 set_ip.add(ip_port)
 #将set中元素添加到list
@@ -219,14 +235,17 @@ def init_proxy_db():
     conn=connect()
     cursor=conn.cursor()
     #去掉IP中的回车与换行
-    cursor.execute('''SELECT ip_port FROM proxy_ip WHERE id >= \
-                        ((SELECT MAX(id) FROM proxy_ip)-(SELECT MIN(id ) \
-                        FROM proxy_ip)) * RAND() + (SELECT MIN(id) FROM proxy_ip)  LIMIT 1
-                ''')
-    curr_ip = cursor.fetchone()['ip_port']
-    cursor.execute("UPDATE proxy_ip SET  ip_port = REPLACE(REPLACE(ip_port, CHAR(10), ''), CHAR(13), '')")
-    #scrapy代理会始终获取状态为1的IP做为代理IP，直到超时或使用了1个小时,初始时数据库中始终有一个状态为1的IP
-    cursor.execute("update proxy_ip SET is_current=1 where ip_port=%s",curr_ip)
+    try:
+        cursor.execute('''SELECT ip_port FROM proxy_ip WHERE id >= \
+                            ((SELECT MAX(id) FROM proxy_ip)-(SELECT MIN(id ) \
+                            FROM proxy_ip)) * RAND() + (SELECT MIN(id) FROM proxy_ip)  LIMIT 1
+                    ''')
+        curr_ip = cursor.fetchone()['ip_port']
+        cursor.execute("UPDATE proxy_ip SET  ip_port = REPLACE(REPLACE(ip_port, CHAR(10), ''), CHAR(13), '')")
+        #scrapy代理会始终获取状态为1的IP做为代理IP，直到超时或使用了1个小时,初始时数据库中始终有一个状态为1的IP
+        cursor.execute("update proxy_ip SET is_current=1 where ip_port=%s",curr_ip)
+    except Exception as e:
+        print("异常",str(e))
     conn.commit()
     conn.close()
 
