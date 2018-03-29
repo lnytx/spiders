@@ -24,9 +24,12 @@ from selenium import webdriver
 
 from jiayuan.settings import IMAGES_STORE,USER_NAME,PASSWD
 from jiayuan.items import JiayuanItem,MainItem
+import redis  
 
 
 class jiayuan_data(RedisSpider):
+    pool=redis.ConnectionPool(host='127.0.0.1',port=6379,db=0,decode_responses=True)  #427条记录
+    r = redis.StrictRedis(connection_pool=pool)  
     name = "jiayuan_main"
     redis_key = 'jiayuan_main:start_urls'
     url_base = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=153649&ft=off&f=select&mt=d'
@@ -77,21 +80,21 @@ class jiayuan_data(RedisSpider):
         print('重新加载url')
         self.driver.get(response.url)
         self.driver.implicitly_wait(3)
-        user_list = self.driver.find_elements_by_xpath('/html//ul[@id="normal_user_container"]/li')#得到多个li标签
+        user_list = self.driver.find_elements_by_xpath('/html//ul[@id="normal_user_container"]/li//div[@class="user_name"]/a[@class="os_stat"]')#得到多个li标签
         if user_list==[]:
-            print("下一页")
+            print("user_list为空了，解析有问题")
         #print("user_list",type(user_list),user_list)
         url_details = []#详情页面的url
         for user in user_list:
-            url_info = user.find_elements_by_xpath('//div[@class="hy_box"]//div[@class="user_name"]/a[@class="os_stat"]')
-            for url in url_info:#通过url去获取别的信息
-                    main_url_main = url.get_attribute("href")
-                    print("人员主页url",type(url),url.get_attribute("href"))
-                    url_details.append(main_url_main)
+            main_url_main = user.get_attribute("href")
+            print("人员主页url",main_url_main)
+            url_details.append(main_url_main)
+            self.redis_pipe.rpush("p",main_url_main)#详情页额外写入redis，也可以不写
+            self.redis_pipe.execute()
         print("人员详情url2",len(url_details))
         if url_details!=[]:
             for url in url_details:
-                yield Request(url=url,cookies=self.cookies,callback=self.get_details)
+                yield Request(url=url,cookies=self.cookies,callback=self.get_details)#解析人员详细信息
 #         yield item
     def get_details(self,response):
         '''
