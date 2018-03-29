@@ -59,18 +59,12 @@ class jiayuan_data(scrapy.Spider):
         print("Cookie1的值",Cookie1)
         print('登录中')
         #找成return就有问题了
-        yield  scrapy.FormRequest.from_response(response,
-                                          url=post_url,   #真实post地址
-                                          meta={'cookiejar':response.meta['cookiejar']},
-                                          formdata=post_data,
-                                          dont_filter=True,
-                                          callback=self.after_login
-                                          )
+        return  [scrapy.FormRequest.from_response(response, url=post_url, meta={'cookiejar':response.meta['cookiejar']},formdata=post_data,dont_filter=True,callback=self.after_login)]
     
     
     def after_login(self,response):
         print("after_login的 值",response.url)
-        print("获取个人主页jiayuan",response)
+#         print("获取个人主页jiayuan",response)
 #         print("页面%s"%(response.url),response.text)
         current_url = response.url #爬取时请求的url
         body = response.body  #返回的html
@@ -131,7 +125,7 @@ class jiayuan_data(scrapy.Spider):
         driver = webdriver.Chrome(chrome_options=option)
         page_count=0
         #当前页
-        for p in xrange(1,int(info['pageTotal']+1)):
+        for p in range(1,int(info['pageTotal']+1)):
             page_count+=1
             search_url = "http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=%s&ft=off&f=select&mt=d" %(p,info['pageTotal'])
             #用户webdrive的方法获取动态加载的数据
