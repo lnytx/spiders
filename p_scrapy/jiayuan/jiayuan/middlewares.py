@@ -5,19 +5,10 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-import codecs
-from datetime import datetime 
-import random
-import time
-
 from scrapy import signals
-from scrapy.downloadermiddlewares.retry import RetryMiddleware
-from scrapy.http.response.html import HtmlResponse
-from scrapy.utils.response import response_status_message
-from selenium import webdriver
 
 
-class JiayuanSpiderMiddleware(object):
+class Jiayuan2SpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
@@ -65,7 +56,7 @@ class JiayuanSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class JiayuanDownloaderMiddleware(object):
+class Jiayuan2DownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
@@ -111,44 +102,127 @@ class JiayuanDownloaderMiddleware(object):
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
 
+
+
 '''
-自定义的
+自定义的使用selenium中间件
+        '''
+#这里将webdriver定义在spider文件的好处是，不需要每一次请求url都打开和关闭浏览器
+        #head less模拟登录
 '''
+定义全局的driver防止一直被实例化
+'''
+global  driver
+from selenium import webdriver
+from jiayuan2.settings import USER_NAME, PASSWD
+from scrapy.http import HtmlResponse
+login_url = 'http://login.jiayuan.com/'#登录时的url
+option = webdriver.ChromeOptions()
+prefs={"profile.managed_default_content_settings.images":2}#禁止加载图片
+option.add_experimental_option("prefs",prefs)
+option.add_argument('--headless')
+option.add_argument("--window-size=1920,1080")
+# option.add_argument("--proxy-server=http://222.73.68.144:8090")
 
-
-# class LocalRetryMiddleware(RetryMiddleware):
-# 
-#     def process_response(self, request, response, spider):
-#         print("异常处理异常处理异常处理异常处理异常处理异常处理异常处理")
-#         return response
-
-#classmethod 修饰符对应的函数不需要实例化，不需要 self 参数，但第一个参数需要是表示自身类的 cls 参数，可以来调用类的属性，类的方法，实例化对象等。
-
-# class RandomUserAgent(object):
-#     def __init__(self, user_agent):
-#         self.user_agent = user_agent
-#     @classmethod
-#     def from_crawler(cls, crawler):
-#         return cls(
-#             user_agent=crawler.settings.get('MY_USER_AGENT')
-#         )
-#     def process_request(self, request, spider):
-#         agent = random.choice(self.user_agent)
-#         print("request的url",request.url)
-#         print("request的url",request)
-#         print("使用的agent",agent)
-#         request.headers['User-Agent'] = agent
-# 
-# 
-# class ProxyMiddleware(object):
-#     def __init__(self,ip=''):  
-#           self.ip=ip
-#     def process_request(self, request, spider):
-#         # 如果代理可用，则使用代理
-#         print("printprintprint",request.body)
-#         thisip=random.choice(PROXY_IP)  
-#         print("获取到的IP",thisip,thisip["ipaddr"])  
-#         request.meta["proxy"]="http://"+thisip["ipaddr"]
-
-
-
+print("登录中",USER_NAME)
+try:
+    driver = webdriver.Chrome(chrome_options=option)
+    driver.get(login_url)#登录页面
+#     print(driver.page_source)
+    import time
+    time.sleep(3)
+    driver.find_element_by_id("login_btn").click()
+    driver.find_element_by_id("login_email").clear()
+    driver.find_element_by_id("login_email").send_keys(USER_NAME) #修改为自己的用户名
+    driver.find_element_by_id("login_password").clear()
+    driver.find_element_by_id("login_password").send_keys(PASSWD) #修改为自己的密码
+    #登录url
+    #url="http://login.jiayuan.com/"
+    driver.find_element_by_id("login_btn").click()#点击登录按钮
+    #登录url
+    #url="http://login.jiayuan.com/"
+    driver.find_element_by_id("login_btn").click()#点击登录按钮
+    driver.implicitly_wait(3)
+    title = driver.title;
+    print("页面的title",type(title),title)
+    if title =='佳缘登录页_世纪佳缘交友网':
+        print("已成功登录执行了页面")
+except Exception as e:
+    driver.close()
+    print("spider出现了异常,关闭",str(e))
+        
+#         print("已登录",driver.page_source)
+class SeleniumMiddleware(object):
+    def process_request(self, request, spider):
+        
+#         if request.meta.has_key('PhantomJS'): #当请求经过下载器中间件时,检查请求中是否有这个meta,决定这个请求要不要使用中间件。
+#             driver = webdriver.PhantomJS() 
+#             driver.get(request.url) 
+#             content = driver.page_source.encode('utf-8') 
+#             driver.quit() 
+#             return HtmlResponse(request.url, encoding='utf-8', body=content, request=request)
+        global  driver
+        print("当前中间件URL",request.url)
+        driver.get(request.url)
+        print("process中间的title",driver.title)
+        print("spider的name",spider.name )
+        html_source = driver.page_source
+        #获取详情url
+        user_list = driver.find_elements_by_xpath('/html//ul[@id="normal_user_container"]/li')#得到多个li标签
+        print("user_list",user_list)
+        if user_list==[]:
+            print("下一页")
+        #print("user_list",type(user_list),user_list)
+        url_details = []#详情页面的url
+        for user in user_list:
+            url_info = user.find_elements_by_xpath('//div[@class="hy_box"]//div[@class="user_name"]/a[@class="os_stat"]')
+            for url in url_info:#通过url去获取别的信息
+                    main_url_main = url.get_attribute("href")
+                    print("人员主页url",type(url),url.get_attribute("href"))
+                    url_details.append(main_url_main)
+        print("列表总数是:",len(url_details))
+        return HtmlResponse(url=driver.current_url,body=html_source,
+                    encoding="utf-8", request=request)
+#         print("人员详情url2",len(url_details))
+#         
+#         
+#         
+# #         print("中间件中间件中间件中间件页面",ss.page_source())
+#         
+#         #spider.name == 'jiayuan_alone'
+#         print("requestrequestrequestrequest",request.meta['search_url'])
+#         if  request.meta['search_url']:#就搜索页面就返回搜索页面
+#             print("执行到这里来了。。。。。。。。")
+#             driver.get(request.url)
+#            
+#             #spider.name=='jiayuan_alone':
+#             try:
+#                 driver.get(request.url)
+#                 print("中间件页面",driver.get(request.url))
+#                 html_source = driver.page_source
+#                 print("页面",html_source)
+#             except TimeoutException as e:
+#                 print('超时',str(e))
+# #                 spider.browser.execute_script('window.stop()')
+#             time.sleep(2)
+#             print("当前URL",driver.current_url)
+#             return HtmlResponse(url=driver.current_url, body=html_source,
+#                                 encoding="utf-8", request=request)
+#         elif  request.meta['detail_url']:#是详情页面就返回另一种情况
+#             try:
+#                 driver.get(request.url)
+#                 print("中间件页面",driver.get(request.url))
+#                 html_source = driver.page_source
+#                 print("页面",html_source)
+#             except TimeoutException as e:
+#                 print('超时',str(e))
+# #                 browser.execute_script('window.stop()')
+#             time.sleep(2)
+#             print("当前URL",driver.current_url)
+#             return HtmlResponse(url=driver.current_url, body=html_source,
+#                                 encoding="utf-8", request=request)
+#         else:
+#             return #response
+    def closed(self,spider):
+        print("spider closed")
+        driver.close()

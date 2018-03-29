@@ -32,11 +32,10 @@ class jiayuan_data(RedisSpider):
     r = redis.StrictRedis(connection_pool=pool)  
     name = "jiayuan_main"
     redis_key = 'jiayuan_main:start_urls'
-    url_base = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=163649&ft=off&f=select&mt=d'
-    redis_key = "sinaspider:start_urls"
+    url_base = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=153649&ft=off&f=select&mt=d'
+    redis_key = "sinaspider:strat_urls"
     login_url = 'http://login.jiayuan.com/'#登录时的url
     start_urls = []
-    pre_page_num = 25#每个搜索业面有25条记录
     #head less模拟登录
     option = webdriver.ChromeOptions()
     option.add_argument('--headless')
@@ -54,8 +53,8 @@ class jiayuan_data(RedisSpider):
     #url="http://login.jiayuan.com/"
     driver.find_element_by_id("login_btn").click()#点击登录按钮
     cookies = driver.get_cookies()#获取cookies
-    for p in range(1,163649):
-        search_url = "http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=%s&ft=off&f=select&mt=d" %(p)
+    for p in range(1,153649):
+        search_url = "http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=%s&ft=off&f=select&mt=d" %(p,153649)
         start_urls.append(search_url)
     #print("start_urls",len(start_urls))
 #     start_urls = [
@@ -67,8 +66,9 @@ class jiayuan_data(RedisSpider):
         在中间件中，对request进行处理的函数是process_request(request, spider)
     '''
     def start_requests(self):#
+        print("执行start_requestsstart_requestsstart_requests")
         for url in self.start_urls:
-            yield Request(url=url,callback=self.get_main_info)
+            yield Request(url=url,cookies=self.cookies,callback=self.get_main_info)
 #             yield scrapy.Request(url=search_url,callback=self.get_main_info)
 #             return Request(url=url,callback=self.get_main_info)
     def get_main_info(self,response):#解析搜索业面的url

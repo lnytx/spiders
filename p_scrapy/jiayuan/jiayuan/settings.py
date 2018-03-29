@@ -78,10 +78,10 @@ DOWNLOAD_DELAY = 3
 
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+# COOKIES_ENABLED = False
 
 # 禁用cookie
-COOKIES_ENABLED = True
+COOKIES_ENABLED = False
 
 
 # Disable Telnet Console (enabled by default)
@@ -108,8 +108,10 @@ COOKIES_ENABLED = True
 DOWNLOADER_MIDDLEWARES = {
 #     'jiayuan.middlewares.JiayuanDownloaderMiddleware': 300,
 #     "jiayuan.middlewares.LocalRetryMiddleware":100,
-    'jiayuan.RandomProxy.ProxyIP': 100,
-    'jiayuan.RandomUserAgent.UserAgent': 300,
+    'jiayuan.middlewares.SeleniumMiddleware': 205,
+    'jiayuan.retry_mid.Retry_Custom': 201,
+    'jiayuan.RandomProxy.ProxyIP': 100,#代理IP与agent合并到一起了
+    'jiayuan.RandomUserAgent.UserAgent': 200,
 }
 
 # Enable or disable extensions
