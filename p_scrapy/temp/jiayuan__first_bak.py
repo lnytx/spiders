@@ -186,7 +186,8 @@ class jiayuan_data(scrapy.Spider):
         print("页面头部信息",title)
 #         print("页面%s"%(response.url),response.text)
         current_url = response.url #爬取时请求的url
-        body = response.body.decode("utf-8")  #返回的html
+        print("response的类型",type(response.body))
+        body = response.body.encode("utf-8")  #返回的html
         print("body",body)
         #unicode_body = response.body_as_unicode()#返回的html unicode编码
         string = response.text
