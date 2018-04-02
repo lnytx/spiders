@@ -60,6 +60,9 @@ REDIE_URL = None
 REDIS_HOST='127.0.0.1'
 REDIS_PORT=6379
 
+
+# 指定redis主机
+# REDIS_URL = 'redis://192.168.0.104:6379'
 # LOG_FILE ='D:\log.txt'
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -142,7 +145,11 @@ USER_NAME = 'lnytx@163.com'
 PASSWD = 'ln1988115'
 
 
+#(即 Item Pipeline) 同时处理(每个response的)item的最大值
+CONCURRENT_ITEMS = 1000
 
+#Scrapy downloader 并发请求(concurrent requests)的最大值。
+CONCURRENT_REQUESTS = 16
 
 USER_PROXY_IP = ["186.224.65.249:6006"]
 PROXY_IP_FILE="proxy_ip.txt"
