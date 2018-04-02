@@ -114,7 +114,7 @@ class Jiayuan2DownloaderMiddleware(object):
 '''
 global  driver
 from selenium import webdriver
-from jiayuan2.settings import USER_NAME, PASSWD
+from jiayuan.settings import USER_NAME, PASSWD
 from scrapy.http import HtmlResponse
 login_url = 'http://login.jiayuan.com/'#登录时的url
 option = webdriver.ChromeOptions()

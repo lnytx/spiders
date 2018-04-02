@@ -20,7 +20,7 @@ data = {
     'key':'',
     'stc':'', 
     'sn': 'default',
-    'sv': 1,
+    'sv': 2,
     'p': 9999999999,
     'f': 'select',
     'listStyle': 'bigPhoto',

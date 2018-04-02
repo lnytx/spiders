@@ -108,7 +108,7 @@ COOKIES_ENABLED = False
 DOWNLOADER_MIDDLEWARES = {
 #     'jiayuan.middlewares.JiayuanDownloaderMiddleware': 300,
 #     "jiayuan.middlewares.LocalRetryMiddleware":100,
-    'jiayuan.middlewares.SeleniumMiddleware': 205,
+#     'jiayuan.middlewares.SeleniumMiddleware': 205,
     'jiayuan.retry_mid.Retry_Custom': 201,
     'jiayuan.RandomProxy.ProxyIP': 100,#代理IP与agent合并到一起了
     'jiayuan.RandomUserAgent.UserAgent': 200,

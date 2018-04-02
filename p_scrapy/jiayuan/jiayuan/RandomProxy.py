@@ -173,7 +173,7 @@ class ProxyIP(object):
         print("从数据库获取新的IP")
         self.proxy_ip = get_proxy_ip()
         print("当前使用的代理IP:" + self.proxy_ip['ip_port'])
-        print("当前使用的代理agent:" + self.proxy_ip['user_agent'])
+#         print("当前使用的代理agent:" + self.proxy_ip['user_agent'])
         request.headers.setdefault('User-Agent', self.proxy_ip['user_agent'])  
         request.meta['proxy'] = "http://" + self.proxy_ip['ip_port']
         

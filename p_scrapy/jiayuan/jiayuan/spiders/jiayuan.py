@@ -41,8 +41,13 @@ class jiayuan_data(RedisSpider):
     option = webdriver.ChromeOptions()
     option.add_argument('--headless')
     option.add_argument("--window-size=1920,1080")
-    
-    driver = webdriver.Chrome(chrome_options=option)
+    prefs={"profile.managed_default_content_settings.images":2}#禁止加载图片
+    option.add_experimental_option("prefs",prefs)
+    try:
+        driver = webdriver.Chrome(chrome_options=option)
+    except Exception as e:
+        driver.close()
+        print("spider出现了异常,关闭",str(e))
     driver.get(login_url)
     time.sleep(3)
     driver.find_element_by_id("login_btn").click()
@@ -54,8 +59,8 @@ class jiayuan_data(RedisSpider):
     #url="http://login.jiayuan.com/"
     driver.find_element_by_id("login_btn").click()#点击登录按钮
     cookies = driver.get_cookies()#获取cookies
-    for p in range(1,163649):
-        search_url = "http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=%s&ft=off&f=select&mt=d" %(p)
+    for p in range(1,173649):
+        search_url = "http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=173649&ft=off&f=select&mt=d" %(p)
         start_urls.append(search_url)
     #print("start_urls",len(start_urls))
 #     start_urls = [
@@ -88,8 +93,8 @@ class jiayuan_data(RedisSpider):
             main_url_main = user.get_attribute("href")
             print("人员主页url",main_url_main)
             url_details.append(main_url_main)
-            self.redis_pipe.rpush("p",main_url_main)#详情页额外写入redis，也可以不写
-            self.redis_pipe.execute()
+#             self.redis_pipe.rpush("p",main_url_main)#详情页额外写入redis，也可以不写
+#             self.redis_pipe.execute()
         print("人员详情url2",len(url_details))
         if url_details!=[]:
             for url in url_details:

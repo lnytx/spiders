@@ -33,17 +33,18 @@ class UserAgent(UserAgentMiddleware):
     def process_request(self, request, spider):
         conn=connect()
         cursor=conn.cursor()
-        url = request.meta['proxy']
+        url = request.meta['proxy']#http//:110.52.8.82:53281
         ip = url[url.rfind('/')+1:]
-        cursor.execute("select user_agent from proxy_ip where ip_port=%s",(ip))
+        cursor.execute("select user_agent from proxy_ip where ip_port=%s",(ip,))
         agent = cursor.fetchone()
         print("从proxy_ip中获取的ip为",ip)
+        print("从proxy_ip中获取的agent为",agent)
         ua = agent['user_agent']
         if ua:  
             #显示当前使用的useragent  
             #print "********Current UserAgent:%s************" %ua  
             #记录 
             print("当前使用的agent",ua) 
-            print("当前的url",request.url)
+            print("UserAgent中获取的url",request.url)
             request.headers.setdefault('User-Agent', ua)  
         cursor.close()
