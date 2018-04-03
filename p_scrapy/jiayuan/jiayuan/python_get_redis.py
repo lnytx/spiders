@@ -3,7 +3,6 @@
 Created on 2018年2月28日
 @author: ning.lin
 '''
-from apscheduler.util import xrange
 '''
 从redis读取数据写入mysql，并且根据item中的image的地址下载图片
 '''
@@ -12,7 +11,9 @@ import json
 import os
 import random
 import re
+import urllib.parse
 
+from apscheduler.util import xrange
 import pymysql
 import redis  
 import requests
@@ -82,15 +83,16 @@ def download_imgs(name_persionid,img_list):
 #         for line in f.readlines():
 #             print("line",line)
 #             ip['http']=line
-    ip['http']='61.135.217.7:80'
-    
-    print("图片存放路径 ",IMAGES_STORE)
+    ip['http']='122.114.31.177:808'
     imgPath=IMAGES_STORE  # 下载图片的保存路径在settin中设置
     img_dir = os.path.join(imgPath,parse_filename(name_persionid))
+    print("图片存放路径 ",img_dir)
     if not os.path.exists(img_dir):
         os.makedirs(img_dir)
     for i in range(len(img_list)):#name_persionid[name_persionid.find('_')+1:name_persionid.rfind('_')]是取年龄的
-        filename = os.path.join(img_dir,name_persionid[name_persionid.find('_')+1:name_persionid.rfind('_')]+'_'+str(i)+'.jpg')
+        filename = os.path.join(img_dir,name_persionid[parse_filename(name_persionid).find('_')+1:parse_filename(name_persionid).rfind('_')]+'_'+str(i)+'.jpg')
+        if os.path.exists(filename):#如果存在的话就跳过
+            continue
         try:
             response = requests.get(img_list[i],proxies=ip, headers=header)
 #             img = response.content
@@ -101,7 +103,7 @@ def download_imgs(name_persionid,img_list):
                         break
                     handle.write(block)
         except Exception as e:
-            print("图片保存失败 %s" ,str(e))
+            print("图片保存失败 %s:%s" %(str(e),img_dir))
             total_num = r.llen('jiayuan_main:items')#总的item数量
             while total_num>0:
                 start=0
@@ -120,10 +122,11 @@ def parse_filename(file_name):
     :param path: 需要清洗的文件夹名字
     :return: 清洗掉Windows系统非法文件夹名字的字符串
     """
-    rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+    file_name = urllib.parse.unquote(file_name)#先将里面的16进制转换一下
+    rstr = r"[\/\\\:\*\?\"\<\>\\|]"  # '/ \ : * ? " < > |'
     new_title = re.sub(rstr, "_", file_name)  # 替换为下划线
     return new_title
-
+    #喂,要幸福\x0e_33岁_32595588'
 
 def sql_excute(data):
     '''
@@ -195,7 +198,7 @@ if __name__=="__main__":
 #                 print("item['url']",item['url'])
 #                 print("item['img_urls']",item['img_urls'])
 #                 print("item['image_dir']",item['image_dir'])
-                #download_imgs(parse_filename(item['image_dir']),item['img_urls'])
+                download_imgs(parse_filename(item['image_dir']),item['img_urls'])
                 #从redis写入数据库
             sql_excute(dict_parse_list(source))
             total_num -=50

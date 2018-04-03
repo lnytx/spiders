@@ -5,7 +5,6 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-from scrapy import signals
 
 
 class Jiayuan2SpiderMiddleware(object):
@@ -112,10 +111,16 @@ class Jiayuan2DownloaderMiddleware(object):
 '''
 定义全局的driver防止一直被实例化
 '''
-global  driver
-from selenium import webdriver
-from jiayuan.settings import USER_NAME, PASSWD
+import re
+
+import redis
+from scrapy import signals
 from scrapy.http import HtmlResponse
+from selenium import webdriver
+
+from jiayuan.settings import USER_NAME, PASSWD
+global driver
+global r
 login_url = 'http://login.jiayuan.com/'#登录时的url
 option = webdriver.ChromeOptions()
 prefs={"profile.managed_default_content_settings.images":2}#禁止加载图片
@@ -123,7 +128,9 @@ option.add_experimental_option("prefs",prefs)
 option.add_argument('--headless')
 option.add_argument("--window-size=1920,1080")
 # option.add_argument("--proxy-server=http://222.73.68.144:8090")
-
+pool=redis.ConnectionPool(host='127.0.0.1',port=6379,db=0,decode_responses=True)  #427条记录
+r = redis.StrictRedis(connection_pool=pool)  
+redis_pipe = r.pipeline()
 print("登录中",USER_NAME)
 try:
     driver = webdriver.Chrome(chrome_options=option)
@@ -161,68 +168,43 @@ class SeleniumMiddleware(object):
 #             content = driver.page_source.encode('utf-8') 
 #             driver.quit() 
 #             return HtmlResponse(request.url, encoding='utf-8', body=content, request=request)
-        global  driver
-        print("当前中间件URL",request.url)
-        driver.get(request.url)
-        print("process中间的title",driver.title)
-        print("spider的name",spider.name )
-        html_source = driver.page_source
-        #获取详情url
-        user_list = driver.find_elements_by_xpath('/html//ul[@id="normal_user_container"]/li')#得到多个li标签
-        print("user_list",user_list)
-        if user_list==[]:
-            print("下一页")
-        #print("user_list",type(user_list),user_list)
-        url_details = []#详情页面的url
-        for user in user_list:
-            url_info = user.find_elements_by_xpath('//div[@class="hy_box"]//div[@class="user_name"]/a[@class="os_stat"]')
-            for url in url_info:#通过url去获取别的信息
+        global driver
+        global r
+        #根据url判断是详情页面还是人员列表页
+        main = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p='
+        deatils = 'http://www.jiayuan.com/\d+\?fxly=.*'
+        if main in request.url:
+            print("当前中间件URL为人员列表页，要从中提取人员主页返回spider",request.url)
+            driver.get(request.url)
+#             html_source = driver.page_source
+            #获取详情url
+            user_list = driver.find_elements_by_xpath('/html//ul[@id="normal_user_container"]/li')#得到多个li标签
+            print("user_list",user_list)
+            if user_list==[]:
+                print("user_list为空了下一页")
+            #print("user_list",type(user_list),user_list)
+            url_details = []#详情页面的url
+            for user in user_list:
+                url_info = user.find_elements_by_xpath('//div[@class="hy_box"]//div[@class="user_name"]/a[@class="os_stat"]')
+                for url in url_info:#通过url去获取别的信息
                     main_url_main = url.get_attribute("href")
                     print("人员主页url",type(url),url.get_attribute("href"))
+                    print(" 写入redis")
+                    redis_pipe.rpush ('jiyuan_aaa:person_url',main_url_main)
                     url_details.append(main_url_main)
-        print("列表总数是:",len(url_details))
-        return HtmlResponse(url=driver.current_url,body=html_source,
+                redis_pipe.execute()
+                r.save()
+
+            ret_url_details = bytes(','.join(url_details), encoding = "utf8")
+            #返回当前所有的人员详情的URL，需要先转换str再使用bytes才能放入body中
+            return HtmlResponse(url=driver.current_url,body=ret_url_details,
                     encoding="utf-8", request=request)
-#         print("人员详情url2",len(url_details))
-#         
-#         
-#         
-# #         print("中间件中间件中间件中间件页面",ss.page_source())
-#         
-#         #spider.name == 'jiayuan_alone'
-#         print("requestrequestrequestrequest",request.meta['search_url'])
-#         if  request.meta['search_url']:#就搜索页面就返回搜索页面
-#             print("执行到这里来了。。。。。。。。")
-#             driver.get(request.url)
-#            
-#             #spider.name=='jiayuan_alone':
-#             try:
-#                 driver.get(request.url)
-#                 print("中间件页面",driver.get(request.url))
-#                 html_source = driver.page_source
-#                 print("页面",html_source)
-#             except TimeoutException as e:
-#                 print('超时',str(e))
-# #                 spider.browser.execute_script('window.stop()')
-#             time.sleep(2)
-#             print("当前URL",driver.current_url)
-#             return HtmlResponse(url=driver.current_url, body=html_source,
-#                                 encoding="utf-8", request=request)
-#         elif  request.meta['detail_url']:#是详情页面就返回另一种情况
-#             try:
-#                 driver.get(request.url)
-#                 print("中间件页面",driver.get(request.url))
-#                 html_source = driver.page_source
-#                 print("页面",html_source)
-#             except TimeoutException as e:
-#                 print('超时',str(e))
-# #                 browser.execute_script('window.stop()')
-#             time.sleep(2)
-#             print("当前URL",driver.current_url)
-#             return HtmlResponse(url=driver.current_url, body=html_source,
-#                                 encoding="utf-8", request=request)
-#         else:
-#             return #response
+        elif re.findall(deatils,request.url):
+            print("传入的是人员详情url，返回人员页面",request.url)
+            driver.get(request.url)
+            html_source = driver.page_source
+            return HtmlResponse(url=driver.current_url,body=html_source,
+                    encoding="utf-8", request=request)
     def closed(self,spider):
         print("spider closed")
         driver.close()

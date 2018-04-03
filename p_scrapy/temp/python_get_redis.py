@@ -10,13 +10,14 @@ Created on 2018年2月28日
 import json
 import os
 import re
+import urllib.parse
 
 import redis  
 import requests
 from scrapy import log
 import scrapy.log
 
-from settings import IMAGES_STORE
+
 
 pool=redis.ConnectionPool(host='127.0.0.1',port=6380,db=0,decode_responses=True)  #427条记录
 r = redis.StrictRedis(connection_pool=pool)  
@@ -96,6 +97,7 @@ def parse_filename(file_name):
     :param path: 需要清洗的文件夹名字
     :return: 清洗掉Windows系统非法文件夹名字的字符串
     """
+    file_name = urllib.parse.unquote(file_name)#先将里面的16进制转换一下
     rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
     new_title = re.sub(rstr, "_", file_name)  # 替换为下划线
     return new_title
@@ -108,8 +110,10 @@ def parse_filename(file_name):
 # print("data",type(data),data)
 
 if __name__=="__main__":
+    str1 = '喂,要幸福\x0e_33岁_32595588'
+    ss = parse_filename(str1)
+    print("ss",ss)
 #     dict_parse_list(source)
-    img_list = ['http://at3.jyimg.com/23/d8/a1ec966844b8b5ba10646c1e807e/a1ec96684_1_avatar_square_p.jpg', 'http://t3.jyimg.com/23/d8/a1ec966844b8b5ba10646c1e807e/148225908d.jpg']
     #download_imgs('asf***',img_list)
 # source = json.loads(data[1])
 # print("单个字段",type(data[1]),data[1])

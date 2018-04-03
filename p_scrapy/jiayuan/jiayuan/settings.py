@@ -7,7 +7,7 @@
 #
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-BOT_NAME = 'jiayuan_main'
+BOT_NAME = 'jiayuan_aaa'
 
 SPIDER_MODULES = ['jiayuan.spiders']
 NEWSPIDER_MODULE = 'jiayuan.spiders'
@@ -146,10 +146,10 @@ PASSWD = 'ln1988115'
 
 
 #(即 Item Pipeline) 同时处理(每个response的)item的最大值
-CONCURRENT_ITEMS = 1000
+CONCURRENT_ITEMS = 50
 
 #Scrapy downloader 并发请求(concurrent requests)的最大值。
-CONCURRENT_REQUESTS = 16
+CONCURRENT_REQUESTS = 32
 
 USER_PROXY_IP = ["186.224.65.249:6006"]
 PROXY_IP_FILE="proxy_ip.txt"

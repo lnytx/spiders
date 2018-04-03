@@ -20,7 +20,8 @@ import requests
 
 url='http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%E5%B9%BF%E5%B7%9E&kw=%E8%BF%90%E7%BB%B4&p=1&isadv=0'
 a = '%E8%BF%90%E7%BB%B4'
-print(urllib.parse.unquote(a))
+b='喂,要幸福\x0e_33岁_32595588'
+print(urllib.parse.unquote(b))
 data = {
     'sex': 'f',
     'key':'',

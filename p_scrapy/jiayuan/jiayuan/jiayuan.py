@@ -32,16 +32,22 @@ class jiayuan_data(RedisSpider):
     r = redis.StrictRedis(connection_pool=pool)  
     name = "jiayuan_main"
     redis_key = 'jiayuan_main:start_urls'
-    url_base = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=153649&ft=off&f=select&mt=d'
-    redis_key = "sinaspider:strat_urls"
+    url_base = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=163649&ft=off&f=select&mt=d'
+    redis_key = "sinaspider:start_urls"
     login_url = 'http://login.jiayuan.com/'#登录时的url
     start_urls = []
+    pre_page_num = 25#每个搜索业面有25条记录
     #head less模拟登录
     option = webdriver.ChromeOptions()
     option.add_argument('--headless')
     option.add_argument("--window-size=1920,1080")
-    
-    driver = webdriver.Chrome(chrome_options=option)
+    prefs={"profile.managed_default_content_settings.images":2}#禁止加载图片
+    option.add_experimental_option("prefs",prefs)
+    try:
+        driver = webdriver.Chrome(chrome_options=option)
+    except Exception as e:
+        driver.close()
+        print("spider出现了异常,关闭",str(e))
     driver.get(login_url)
     time.sleep(3)
     driver.find_element_by_id("login_btn").click()
@@ -53,8 +59,8 @@ class jiayuan_data(RedisSpider):
     #url="http://login.jiayuan.com/"
     driver.find_element_by_id("login_btn").click()#点击登录按钮
     cookies = driver.get_cookies()#获取cookies
-    for p in range(1,153649):
-        search_url = "http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=%s&ft=off&f=select&mt=d" %(p,153649)
+    for p in range(1,173649):
+        search_url = "http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=173649&ft=off&f=select&mt=d" %(p)
         start_urls.append(search_url)
     #print("start_urls",len(start_urls))
 #     start_urls = [
@@ -66,9 +72,8 @@ class jiayuan_data(RedisSpider):
         在中间件中，对request进行处理的函数是process_request(request, spider)
     '''
     def start_requests(self):#
-        print("执行start_requestsstart_requestsstart_requests")
         for url in self.start_urls:
-            yield Request(url=url,cookies=self.cookies,callback=self.get_main_info)
+            yield Request(url=url,callback=self.get_main_info)
 #             yield scrapy.Request(url=search_url,callback=self.get_main_info)
 #             return Request(url=url,callback=self.get_main_info)
     def get_main_info(self,response):#解析搜索业面的url
@@ -88,8 +93,8 @@ class jiayuan_data(RedisSpider):
             main_url_main = user.get_attribute("href")
             print("人员主页url",main_url_main)
             url_details.append(main_url_main)
-            self.redis_pipe.rpush("p",main_url_main)#详情页额外写入redis，也可以不写
-            self.redis_pipe.execute()
+#             self.redis_pipe.rpush("p",main_url_main)#详情页额外写入redis，也可以不写
+#             self.redis_pipe.execute()
         print("人员详情url2",len(url_details))
         if url_details!=[]:
             for url in url_details:
