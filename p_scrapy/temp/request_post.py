@@ -18,7 +18,9 @@ import urllib.parse
 import requests
 
 
-url='http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%E5%B9%BF%E5%B7%9E&kw=%E8%BF%90%E7%BB%B4&p=1&isadv=0'
+# url='http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%E5%B9%BF%E5%B7%9E&kw=%E8%BF%90%E7%BB%B4&p=1&isadv=0'
+url = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=1&pt=1454903&ft=off&f=select&mt=d'
+url = 'http://search.jiayuan.com/v2/search_v2.php'
 a = '%E8%BF%90%E7%BB%B4'
 b='喂,要幸福\x0e_33岁_32595588'
 print(urllib.parse.unquote(b))
@@ -28,18 +30,18 @@ data = {
     'stc':'', 
     'sn': 'default',
     'sv': 2,
-    'p': 9999999999,
+    'p': 2,
     'f': 'select',
     'listStyle': 'bigPhoto',
     'pri_uid':'',
     'jsversion': 'v5',
 }
 # 1
-requests.post(url, data=json.dumps(data))
-requests.get(url)
+# requests.post(url, data=json.dumps(data))
+req = requests.get(url)
 
 # 2-json参数会自动将字典类型的对象转换为json格式
 req = requests.post(url, json=data)
-print(req.text)
-# a = json.loads(req.text)
+# print(req.text)
+a = json.loads(req.text)
 print(type(a),a)

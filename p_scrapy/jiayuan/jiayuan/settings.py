@@ -141,8 +141,8 @@ COMMANDS_MODULE = 'jiayuan.commands'
 #图片存放路径
 IMAGES_STORE ='D:\\spiders\\jiayuan'
 #待爬网站的用户名与密码
-USER_NAME = 'lnytx@163.com'
-PASSWD = 'ln1988115'
+USER_NAME = '这是我的用户名'
+PASSWD = '这是我的密码'
 
 
 #(即 Item Pipeline) 同时处理(每个response的)item的最大值

@@ -26,7 +26,6 @@ import requests
 from scrapy.utils.project import get_project_settings
 
 
-settings = get_project_settings()
 
 
 # print("文件为",settings['PROXY_IP_FILE'])
@@ -64,8 +63,8 @@ ip={}   #初始化列表用来存储获取到的IP
 # url='http://www.xicidaili.com/'
 # url = "http://ip.yqie.com/ipproxy.htm"
 #     url = "http://ip.seofangfa.com/"
-# url = "http://www.66ip.cn/areaindex_18/1.html"
-url = "http://www.ip3366.net/?stype=1&page=4"#可翻页
+url = "http://www.66ip.cn/areaindex_18/1.html"
+# url = "http://www.ip3366.net/?stype=1&page=4"#可翻页
 
 # url = 'http://ip.zdaye.com/'
 req=requests.get(url=url,headers=header)

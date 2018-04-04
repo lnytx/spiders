@@ -46,7 +46,7 @@ class jiayuan_data(scrapy.Spider):
             return ''
         post_url = 'https://passport.jiayuan.com/dologin.php?pre_url=http://www.jiayuan.com/usercp'    # 这里是输入手机号
         post_data = {
-            "name":"lnytx@163.com",
+            "name":"这是我的用户名",
             "password":"*******************",
             "remem_pass":"on",
             "_s_x_id":_s_x_id,

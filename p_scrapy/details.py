@@ -55,7 +55,7 @@ class jiayuan_data(RedisSpider):
 #         if _s_x_id is None:
 #             return ''
 #         post_data = {
-#             "name":"lnytx@163.com",
+#             "name":"这是我的用户名",
 #             "password":"*******************",
 #             "remem_pass":"on",
 #             "_s_x_id":_s_x_id,
@@ -88,7 +88,7 @@ class jiayuan_data(RedisSpider):
         time.sleep(3)
         driver.find_element_by_id("login_btn").click()
         driver.find_element_by_id("login_email").clear()
-        driver.find_element_by_id("login_email").send_keys("lnytx@163.com") #修改为自己的用户名
+        driver.find_element_by_id("login_email").send_keys("这是我的用户名") #修改为自己的用户名
         driver.find_element_by_id("login_password").clear()
         driver.find_element_by_id("login_password").send_keys("*******************") #修改为自己的密码
 #         #登录url

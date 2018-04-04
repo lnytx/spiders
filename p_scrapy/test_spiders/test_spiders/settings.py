@@ -70,8 +70,8 @@ DOWNLOADER_MIDDLEWARES = {
 
 
 IMAGES_STORE ='D:\\spiders\\jiayuan'
-USER_NAME = 'lnytx@163.com'
-PASSWD = 'ln1988115'
+USER_NAME = '这是我的用户名'
+PASSWD = '这是我的密码'
 
 PROXY_IP_FILE="proxy_ip.txt"
 # Enable or disable extensions
