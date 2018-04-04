@@ -60,10 +60,10 @@ print("hdader",header)
 lock = threading.Lock()#定义锁，防止重复写文件
 q = Queue()#创建先进先出队列，全局中变量
 ip={}   #初始化列表用来存储获取到的IP
-# url='http://www.xicidaili.com/'
+url='http://www.xicidaili.com/'
 # url = "http://ip.yqie.com/ipproxy.htm"
 #     url = "http://ip.seofangfa.com/"
-url = "http://www.66ip.cn/areaindex_18/1.html"
+# url = "http://www.66ip.cn/areaindex_18/1.html"
 # url = "http://www.ip3366.net/?stype=1&page=4"#可翻页
 
 # url = 'http://ip.zdaye.com/'
