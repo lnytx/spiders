@@ -23,3 +23,6 @@ REDIS_URL = 'redis://192.168.1.112:6379'
 spider中打开yield item
 
 配置好之后执行master与slave两个爬虫
+
+
+用了20个docker容器来爬，发现速度是上去了，但是代理IP的使用还得改一改，同时取一个的话会拒绝连接的
