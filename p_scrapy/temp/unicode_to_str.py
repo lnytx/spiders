@@ -43,19 +43,19 @@ if __name__=='__main__':
 # #     print("找字符串",str3[571:577])
 #     a = json.loads(str1, encoding="GB2312");
 #     print("a",type(a),len(a['userInfo']))
-    url = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=173649&ft=off&f=select&mt=d'
-    str1 = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p='
-    m=re.findall('http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=',url)
-    re1 = re.compile('http://www.jiayuan.com/\d+?fxly=')
-    url2 = 'http://www.jiayuan.com/175948737?fxly=search_v2_index'
-    deatils = 'http://www.jiayuan.com/\d+\?fxly=.*'
-    ss = re.findall(deatils,url2)
-    if ss:
-        print("ss",ss)
-    if str1 in url:
-        print("子串在串中")
-    
-    pass
+#     url = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=%s&pt=173649&ft=off&f=select&mt=d'
+#     str1 = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p='
+#     m=re.findall('http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=',url)
+#     re1 = re.compile('http://www.jiayuan.com/\d+?fxly=')
+#     url2 = 'http://www.jiayuan.com/175948737?fxly=search_v2_index'
+#     deatils = 'http://www.jiayuan.com/\d+\?fxly=.*'
+#     ss = re.findall(deatils,url2)
+#     if ss:
+#         print("ss",ss)
+#     if str1 in url:
+#         print("子串在串中")
+#     
+#     pass
 #     url = 'http://www.jiayuan.com/115187836?fxly=pmtq-ss-210&pv.mark=s_p_c|115187836|0'
 #     aaa =   ['籍      贯：', '湖北十堰', '户      口：', '湖北十堰', '国      籍：', '中国大陆', '个性待征：', '有点内向', '幽  默 感：', '没有幽默感', '脾      气：', '偶尔会憋不住', '对待感情：', '一向认真对待感情', '是否要小孩：', '想要孩子', '何时结婚：', '顺其自然', '是否能接受异地恋：', '视情况而定', '理想婚姻：', '--愿与对方父母同住：', '不愿意', '家中排 行：', '老二', '父母情况：', '父母健在', '兄弟姐妹：', '1个哥哥', '父母经济情况：', '--', '父母医保情况：', '--', '父母 的工作：', '--']
 #     print("url.rfind('/')",url.rfind('/'))
@@ -87,3 +87,32 @@ if __name__=='__main__':
 #         if i%2==0:
 #             a[aaa[i].replace(" ", "").replace("：", '')] = aaa[i+1]
 #     print("a",type(a),a)
+    a=[1,2,3,4,5]
+    print(a[::2])
+    print(a[:2])
+    print(a[-2:])
+    
+    
+#     a1 = re.findall('[html](.*)[/html]',str1)
+    
+
+    
+    str1 = '[html]这是一个网页[/html]'
+    x=re.findall(r"(?=[html])(.*?)(?=[/html])",str1)
+    pattern = re.compile('(?<=().+?(?=))') 
+    a = pattern.sub('' , str1)
+    print(a)
+    print("x",type(x),len(x),x[3])
+#     for i in x:
+#         print(i)
+#     result = x[2].replace('l]','').replace('[','')
+#     print(result)
+    
+    def get_str(str1):
+        str1 = '[html]这是一个网页[/html]'
+        x=re.findall(r"([html])(.+?)(?=[/html])",str1)
+        result = x[2].replace('l]','').replace('[','')
+        print(result)
+        return result
+
+
