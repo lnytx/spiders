@@ -99,12 +99,12 @@ class jiayuan_data(scrapy.Spider):
             
             
         item = JiayuanItem()
-        self.driver.get(response.url)
+        self.driver.get(self.start_urls[0])
         self.driver.implicitly_wait(3)
         print('打开浏览器')
         print("当前的url",response.url)
         age_info = self.driver.find_element_by_xpath('/html//h6[@class="member_name"]').text
-        person_id = response.url[response.url.rfind('/')+1:response.url.index('?')]
+        person_id = self.start_urls[0][self.start_urls[0].rfind('/')+1:self.start_urls[0].index('?')]
         print("年龄地址信息",type(age_info),age_info)
         address = self.driver.find_elements_by_xpath('/html//h6[@class="member_name"]/a')#得到多个a标签的text
         str_address=''
@@ -112,6 +112,15 @@ class jiayuan_data(scrapy.Spider):
         str_shi=address[1].get_attribute("text") 
         print("人员地址",str_sheng+'sssss'+str_shi)
         
+        '''
+                    性别
+        '''
+        sex = self.driver.find_elements_by_xpath('/html//div[@class="subnav_box yh"]//ul[@class="nav_l"]/li[@class="cur"]')
+        if sex[0].text=='她的资料':
+            item['sex']='女'#0为女
+        else:
+            item['sex']='男'#1为男
+        print("",type(sex),sex[0].text)
         '''
         人个信息
         '''

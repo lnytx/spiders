@@ -34,6 +34,7 @@ class JiayuanItem(scrapy.Item):
     municipal = scrapy.Field()#市
     image_dir = scrapy.Field()
     age = scrapy.Field()
+    sex = scrapy.Field()
     age_info = scrapy.Field()#年龄地址信息
     education = scrapy.Field()#学历
     height = scrapy.Field()

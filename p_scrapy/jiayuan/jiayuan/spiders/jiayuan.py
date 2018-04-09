@@ -152,6 +152,17 @@ class jiayuan_data(RedisSpider):
         str_sheng=address[0].get_attribute("text") 
         str_shi=address[1].get_attribute("text") 
         print("人员地址",str_sheng+'sssss'+str_shi)
+        
+        
+        
+        '''
+                    性别
+        '''
+        sex = self.driver.find_elements_by_xpath('/html//div[@class="subnav_box yh"]//ul[@class="nav_l"]/li[@class="cur"]')
+        if sex[0].text=='她的资料':
+            item['sex']='女'#0为女
+        else:
+            item['sex']='男'#1为男
          
         '''
         人个信息

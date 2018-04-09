@@ -146,8 +146,8 @@ def sql_excute(data):
                                      
     sql_insert_mate_selection = "insert into mate_selection(person_id,age,height,nation,education,image,marital_status,address,sincerity) \
                                     values(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    sql_insert_person_info = "insert into person_info(nike_name,person_id,province,age,municipal,age_info,education,height,buy_car,address,salary,housing,constellation,nation,weight,zodiac,blood_type,introduce_oneself,personality_label,interest_label,img_urls,url,image_dir) \
-                                    values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    sql_insert_person_info = "insert into person_info(nike_name,person_id,province,sex,age,municipal,age_info,education,height,buy_car,address,salary,housing,constellation,nation,weight,zodiac,blood_type,introduce_oneself,personality_label,interest_label,img_urls,url,image_dir) \
+                                    values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     sql_insert_work_study = "insert into work_study(person_id,position,company,company_type,welfare,working,transfer_work,work_family,overseas_job,university,major,language) \
                                     values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     for item in data:
@@ -167,7 +167,7 @@ def sql_excute(data):
             cursor.execute(sql_insert_mate_selection,(item['person_id_mate'],item['age_mate'],item['height_mate'],item['nation_mate'],\
                        item['education_mate'],item['image_mate'],item['marital_status'],item['address_mate'],item['sincerity_mate']))
             #个人信息表
-            cursor.execute(sql_insert_person_info,(item['nike_name'],item['person_id'],item['province'],item['age'],item['municipal'],item['age_info'],item['education'],item['height'],item['buy_car'] \
+            cursor.execute(sql_insert_person_info,(item['nike_name'],item['person_id'],item['province'],item['sex'],item['age'],item['municipal'],item['age_info'],item['education'],item['height'],item['buy_car'] \
                                                ,item['address'],item['salary'],item['housing'],item['constellation'],item['nation'],item['weight'],item['zodiac'],item['blood_type'],item['introduce_oneself'] \
                                               ,item['personality_label'],item['interest_label']," ".join(item['img_urls']),item['url'],item['image_dir']))#img_urls是list需要转成str
             #工作学习表
