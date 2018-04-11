@@ -99,8 +99,8 @@ if __name__=='__main__':
     
     str1 = '[html]这是一个网页[/html]'
     x=re.findall(r"(?=[html])(.*?)(?=[/html])",str1)
-    pattern = re.compile('(?<=().+?(?=))') 
-    a = pattern.sub('' , str1)
+#     pattern = re.compile('(?<=().+?(?=))') 
+#     a = pattern.sub('' , str1)
     print(a)
     print("x",type(x),len(x),x[3])
 #     for i in x:
@@ -114,5 +114,12 @@ if __name__=='__main__':
         result = x[2].replace('l]','').replace('[','')
         print(result)
         return result
+    aa=['http://at1.jyimg.com/40/5e/d1f79024068c3c32f307079cc45d/d1f790240_avatar_p.jpg', 'http://t1.jyimg.com/40/5e/d1f79024068c3c32f307079cc45d/98926879d.jpg']
+#     print(a.replace('\n','').replace('                                ', ''))
+    print("a",";".join(aa))
+#     for k,v in a.items():
+#         print("k",k)
+# #         print("v",v)
+    
 
 

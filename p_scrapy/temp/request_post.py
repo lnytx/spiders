@@ -23,7 +23,8 @@ url = 'http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=
 url = 'http://search.jiayuan.com/v2/search_v2.php'
 a = '%E8%BF%90%E7%BB%B4'
 b='喂,要幸福\x0e_33岁_32595588'
-print(urllib.parse.unquote(a))
+c='\u3000\u3000'
+print("aa",urllib.parse.unquote(c))
 data = {
     'sex': 'f',
     'key':'',
