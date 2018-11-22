@@ -270,7 +270,6 @@ def get_soup(url):#返回页面内容
         req=requests.get(url=url,headers=header)
         req.encoding = 'utf-8' 
         r=req.text
-        print("r",r)
         soup=BeautifulSoup(r,'html.parser')
         return soup
     except Exception as e:
@@ -418,16 +417,20 @@ def access_hbzwfw(i):
     url_list = ["http://zwfw.hubei.gov.cn/",
            "http://zwfw.hubei.gov.cn/lawguide/geren_faren_banshi/frbanshi.jspx?type=1",
            "http://zwfw.hubei.gov.cn/bmfw/service.jspx",
-           "http://zwfw.hubei.gov.cn/lawguide/geren_faren_banshi/grbanshi.jspx?type=0&title_code=7F669562F94A47C08EBAF8F7682E9CF6",
-           "http://zwfw.hubei.gov.cn/bmfw/jtcx/busrServices.jspx"
+           "http://zwfw.hubei.gov.cn/lawguide/dept/qzqd.jspx",
+           "http://zwfw.hubei.gov.cn/special/modefy.jspx"
            ]
     url=random.choice(url_list)
     header={"User-Agent":random.choice(user_agent_list)}
     #开始使用代理IP访问对应的url
-    req = requests.get(url, proxies={"http":"http://"+real_ip[i]}, headers=header,timeout=2)
-    if req.status_code==200:
-        print("有效访问%s有效" % url)
-        
+    try:
+        req = requests.get(url, proxies={"http":"http://"+real_ip[i]}, headers=header,timeout=2)
+        if req.status_code==200:
+            print("有效访问%s有效" % url)
+    except Exception as e:
+        print("访问有异常",str(e))
+    finally:
+        pass
         
         
         
