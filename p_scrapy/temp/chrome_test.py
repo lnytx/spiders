@@ -90,10 +90,12 @@ def  scroll(driver):
     time.sleep(2)
      
 if __name__=="__main__":
-#     option = webdriver.ChromeOptions()
-#     option.add_argument('--headless')
-#     option.add_argument("--window-size=1920,1080")
-#     driver = webdriver.Chrome(chrome_options=option)
+    option = webdriver.ChromeOptions()
+    option.add_argument('--headless')
+    option.add_argument("--window-size=1920,1080")
+    driver = webdriver.Chrome(chrome_options=option)
+    url='https://171466.com/Lottery/index/bet/27'
+    print(driver.page_source)
 #     url = "http://search.jiayuan.com/v2/index.php?key=&sex=f&stc=&sn=default&sv=1&p=1&pt=4467&ft=off&f=select&mt=d"
 #     login(driver)
 #     get_chrome_less(driver,url)
